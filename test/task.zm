@@ -1,0 +1,534 @@
+/******************************************************************************\
+FILE:           task.zm
+AUTHOR:         Theo Veenker <theo.veenker@beexy.nl>
+ADAPTED BY:     Maarten Duijndam <m.j.a.duijndam@uu.nl>
+
+DESCRIPTION:
+
+Implementation of task: Same-Different Auditory Discrimination (AX)
+See readme.txt for more information.
+
+
+Global structure of this experiment phase:
+
+  - instructions
+
+  - practice part
+      trial
+
+  - pause
+
+  - test part
+      trial
+
+
+HISTORY:
+2012-01-30 TV   Created.
+
+\******************************************************************************/
+
+//requires 1.10;
+
+import defs;
+import stimuli;
+import output;
+import test_page;
+import instructions;
+import session;
+
+TestItem[] current_items;
+TestItem[] current_prac_items;
+
+string practise_instruction;
+
+Block task
+{
+    on_event:entry()
+    {
+        if (!create_test_items()) {
+            terminate "Unable to create the testitems\n";
+        }
+        control.button_box.open();
+
+        if (! is_valid_int(expdb.participant.id))
+            terminate
+                "Participant id is not an integer,"
+                " unable to counter balance this session\n";
+    }
+
+    Part instructions1
+    {
+        on_event:entry()
+        {
+//            pause_page.set_text_size(1000, 600);
+            pause_page.set_text( prac_instructions_ex1, true);
+
+            pause_page.action(this);
+            control.button_box.enable_all_buttons(CONTINUE);
+        }
+    }
+
+
+    Block practice_1
+    {
+        TestItem        item;   // current item
+
+        on_event:entry()
+        {
+            current_prac_items = prac_items_ex1;
+            num_cycles = current_prac_items.size;
+
+            // Prepare test page: progress bar, feedback and prompt enabled.
+            test_page.setup(num_cycles, true, true, ISI_BLOCK1);
+        }
+
+        on_event:exit()
+        {
+            test_page.cleanup();
+        }
+
+        Trial trial
+        {
+            on_event:entry()
+            {
+                item = current_prac_items[practice_1.cycle];
+                test_page.action(this, item, reference_time, practice_1.cycle);
+            }
+        }
+    }
+
+    Part
+    {
+        on_event:entry()
+        {
+            blank_page.action_auto(this, 500ms);
+        }
+    }
+
+    Part pause_1
+    {
+        on_event:entry()
+        {
+            pause_page.set_text(end_prac_instruction_ex1, true);
+            pause_page.action(this);
+            control.button_box.enable_all_buttons(CONTINUE);
+        }
+    }
+
+    Block test_1
+    {
+        TestItem        item;   // current item
+
+        on_event:entry()
+        {
+            current_items = test_items_ex1;
+            num_cycles = current_items.size;
+
+            // Prepare test page: progress bar enabled, feedback and prompt 
+            // disabled.
+            test_page.setup(num_cycles, false, false, ISI_BLOCK1);
+        }
+
+        on_event:exit()
+        {
+            test_page.cleanup();
+
+            // Save test output table as CSV file.
+            test_output_save();
+        }
+
+        Trial trial
+        {
+            on_event:entry()
+            {
+                item = current_items[test_1.cycle];
+
+                test_page.action(this, item, reference_time, test_1.cycle);
+            }
+
+
+            on_event:exit()
+            {
+                // Add new row to test output table.
+                TestOutput output;
+                output.trialnum = test_1.cycle + 1;
+                output.experiment = item.nexp;
+                output.id = item.id;
+                output.type1 = item.type1;
+                output.type2 = item.type2;
+                output.sndfn1 = item.sndfn1;
+                output.sndfn2 = item.sndfn2;
+                output.value = test_page.response.value;
+                output.rt = test_page.response.rt;
+                output.correct = test_page.response.correct;
+                test_output_append(output);
+            }
+        }
+    }
+
+    Part
+    {
+        on_event:entry()
+        {
+            blank_page.action_auto(this, 500ms);
+        }
+    }
+    
+    Part instructions2
+    {
+        on_event:entry()
+        {
+//            pause_page.set_text_size(1000, 600);
+            
+            // select experiment 2 for even participant id's
+            if (int_ppid % 2 == 0) {
+                pause_page.set_text( prac_instructions_ex2, true);
+            }
+            else {
+                pause_page.set_text( prac_instructions_ex3, true);
+            }
+
+            pause_page.action(this);
+            control.button_box.enable_all_buttons(CONTINUE);
+        }
+    }
+
+    Block practice_2
+    {
+        TestItem        item;   // current item
+
+        on_event:entry()
+        {
+            // select experiment 2 for even participant id's
+            if (int_ppid % 2 == 0)
+                current_prac_items = prac_items_ex2;
+            else
+                current_prac_items = prac_items_ex3;
+
+            num_cycles = current_prac_items.size;
+
+            // Prepare test page: progress bar, feedback and prompt enabled.
+            test_page.setup(num_cycles, true, true, ISI_BLOCK2);
+        }
+
+        on_event:exit()
+        {
+            test_page.cleanup();
+        }
+
+        Trial trial
+        {
+            on_event:entry()
+            {
+                item = current_prac_items[practice_2.cycle];
+                test_page.action(this, item, reference_time, practice_2.cycle);
+            }
+        }
+    }
+
+
+    Part
+    {
+        on_event:entry()
+        {
+            blank_page.action_auto(this, 500ms);
+        }
+    }
+
+    Part pause_2
+    {
+        on_event:entry()
+        {
+            if (int_ppid % 2 == 0)
+                pause_page.set_text(end_prac_instruction_ex2, true);
+            else
+                pause_page.set_text(end_prac_instruction_ex3, true);
+
+            pause_page.action(this);
+            control.button_box.enable_all_buttons(CONTINUE);
+        }
+    }
+
+    Block test_2
+    {
+        TestItem        item;   // current item
+        bool            is_long;// if set the test gives a pause halfway
+
+        on_event:entry()
+        {
+            // select experiment 2 for even participant id's
+            if (int_ppid % 2 == 0)
+            {
+                current_items = test_items_ex2;
+                is_long = false;
+            }
+            else
+            {
+                current_items = test_items_ex3;
+                is_long = true;
+            }
+
+            num_cycles = current_items.size;
+
+            // Prepare test page: progress bar enabled, feedback and prompt 
+            // disabled.
+            test_page.setup(num_cycles, false, false, ISI_BLOCK2);
+        }
+
+        on_event:exit()
+        {
+            test_page.cleanup();
+
+            // Save test output table as CSV file.
+            test_output_save();
+        }
+
+        TransientPart pause_test
+        {
+            on_event:entry()
+            {
+                bool half = test_2.num_cycles/2 == test_2.cycle;
+                if (is_long && half)
+                {
+                    short_break.enter();
+                }
+                else
+                {
+                    trial.enter();
+                }
+            }
+        }
+
+        Trial short_break
+        {
+            on_event:entry()
+            {
+                pause_page.set_text(SHORT_BREAK_TEXT);
+                pause_page.action(this);
+            }
+            on_event:exit()
+            {
+                test_page.setup(test_2.num_cycles, false, false, ISI_BLOCK2);
+            }
+        }
+
+        Trial trial
+        {
+            on_event:entry()
+            {
+                item = current_items[test_2.cycle];
+
+                test_page.action(this, item, reference_time, test_2.cycle);
+            }
+
+            on_event:exit()
+            {
+                // Add new row to test output table.
+                TestOutput output;
+                output.trialnum = test_2.cycle + 1;
+                output.experiment = item.nexp;
+                output.id = item.id;
+                output.type1 = item.type1;
+                output.type2 = item.type2;
+                output.sndfn1 = item.sndfn1;
+                output.sndfn2 = item.sndfn2;
+                output.value = test_page.response.value;
+                output.rt = test_page.response.rt;
+                output.correct = test_page.response.correct;
+                test_output_append(output);
+            }
+        }
+    }
+
+
+    Part
+    {
+        on_event:entry()
+        {
+            blank_page.action_auto(this, 500ms);
+        }
+    }
+
+    // Extra pause
+    Part
+    {
+        on_event:entry()
+        {
+//            pause_page.set_text_size(1000, 600);
+            pause_page.set_text(pause_instruction, true);
+            
+            pause_page.action(this);
+            control.button_box.enable_all_buttons(CONTINUE);
+        }
+    }
+    
+    Part instructions3
+    {
+        on_event:entry()
+        {
+//            pause_page.set_text_size(1000, 600);
+            
+            // select experiment 3 for even participant id's
+            if (int_ppid % 2 == 0) {
+                pause_page.set_text( prac_instructions_ex3, true);
+            }
+            else {
+                pause_page.set_text( prac_instructions_ex2, true);
+            }
+
+            pause_page.action(this);
+            control.button_box.enable_all_buttons(CONTINUE);
+        }
+    }
+
+    Block practice_3
+    {
+        TestItem        item;   // current item
+
+        on_event:entry()
+        {
+            // select experiment 3 for even participant id's
+            if (int_ppid % 2 == 0)
+                current_prac_items = prac_items_ex3;
+            else
+                current_prac_items = prac_items_ex2;
+
+            num_cycles = current_prac_items.size;
+
+            // Prepare test page: progress bar, feedback and prompt enabled.
+            test_page.setup(num_cycles, true, true, ISI_BLOCK3);
+        }
+
+        on_event:exit()
+        {
+            test_page.cleanup();
+        }
+
+        Trial trial
+        {
+            on_event:entry()
+            {
+                item = current_prac_items[practice_3.cycle];
+                test_page.action(this, item, reference_time, practice_3.cycle);
+            }
+        }
+    }
+
+
+    Part
+    {
+        on_event:entry()
+        {
+            blank_page.action_auto(this, 500ms);
+        }
+    }
+
+    Part pause_3
+    {
+        on_event:entry()
+        {
+            if (int_ppid % 2 == 0)
+                pause_page.set_text(end_prac_instruction_ex3, true);
+            else
+                pause_page.set_text(end_prac_instruction_ex2, true);
+
+            pause_page.action(this);
+            control.button_box.enable_all_buttons(CONTINUE);
+        }
+    }
+
+    Block test_3
+    {
+        TestItem        item;   // current item
+        bool            is_long;// whether this test is very long
+
+        on_event:entry()
+        {
+            // select experiment 3 for even participant id's
+            if (int_ppid % 2 == 0)
+            {
+                current_items = test_items_ex3;
+                is_long = true;
+            }
+            else
+            {
+                current_items = test_items_ex2;
+                is_long = false;
+            }
+
+            num_cycles = current_items.size;
+
+            // Prepare test page: progress bar enabled, feedback and prompt 
+            // disabled.
+            test_page.setup(num_cycles, false, false, ISI_BLOCK3);
+        }
+
+        on_event:exit()
+        {
+            test_page.cleanup();
+
+            // Save test output table as CSV file.
+            test_output_save();
+        }
+        
+        TransientPart test_pause
+        {
+            on_event:entry()
+            {
+                bool half = test_3.num_cycles / 2 == test_3.cycle;
+                if (is_long && half)
+                    short_break.enter();
+                else
+                    trial.enter();
+            }
+        }
+
+        Trial short_break
+        {
+            on_event:entry()
+            {
+                pause_page.set_text(SHORT_BREAK_TEXT);
+                pause_page.action(this);
+            }
+            on_event:exit()
+            {
+                test_page.setup(test_3.num_cycles, false, false, ISI_BLOCK3);
+            }
+        }
+
+        Trial trial
+        {
+            on_event:entry()
+            {
+                item = current_items[test_3.cycle];
+
+                test_page.action(this, item, reference_time, test_3.cycle);
+            }
+
+            on_event:exit()
+            {
+                // Add new row to test output table.
+                TestOutput output;
+                output.trialnum = test_3.cycle + 1;
+                output.experiment = item.nexp;
+                output.id = item.id;
+                output.type1 = item.type1;
+                output.type2 = item.type2;
+                output.sndfn1 = item.sndfn1;
+                output.sndfn2 = item.sndfn2;
+                output.value = test_page.response.value;
+                output.rt = test_page.response.rt;
+                output.correct = test_page.response.correct;
+                test_output_append(output);
+            }
+        }
+    }
+}
+
+
+void action(Part caller)
+{
+    // Activate the task. When the task is done, the registered caller
+    // (c.q. the main experiment object) will automatically be signalled.
+    task.enter(caller);
+}

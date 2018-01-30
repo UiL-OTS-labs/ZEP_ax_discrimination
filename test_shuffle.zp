@@ -1,0 +1,23 @@
+/*
+ * shuffle and dump testitems to standard output.
+ */
+
+import test::stimuli;
+import std_defs;
+
+
+start()
+{
+    bool succes = test::create_test_items();
+
+    println("Items experiment ex1");
+    test::dump_test_items(test::test_items_ex1);
+    
+    println("Items experiment ex2");
+    test::dump_test_items(test::test_items_ex2);
+    
+    println("Items experiment ex3");
+    test::dump_test_items(test::test_items_ex3);
+    
+    terminate;
+}

@@ -1,0 +1,33 @@
+/******************************************************************************\
+FILE:           setup.zm
+AUTHOR:         Maarten Duijndam<m.j.a.Duijndam@uu.nl>
+ADAPTED BY:     -
+
+DESCRIPTION:
+
+Item table shuffling functions.
+
+
+HISTORY:
+2012-01-30 TV   Created.
+
+\******************************************************************************/
+
+import stimuli;
+
+bool shuffled = false;
+
+// Shuffles test_items table (no restrictions on item order).
+int shuffle_test_items()
+{
+    test_items.shuffle(0, -1);
+
+    shuffled = true;
+
+    return OK;
+}
+
+bool shuffle_succes() {
+    return shuffled;
+}
+

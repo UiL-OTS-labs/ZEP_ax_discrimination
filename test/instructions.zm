@@ -1,0 +1,121 @@
+/******************************************************************************\
+FILE:           
+AUTHOR:         duijn119 <email@server.nl>
+ADAPTED BY:     -
+
+DESCRIPTION: Contains the instructions for the experiments.
+
+
+HISTORY:
+2016-01-11 duijn119   Created.
+
+\******************************************************************************/
+
+// Displays the pause between the second and the third experiment.
+string pause_instruction = "Please press a button to continue.";
+
+/*
+ * Before reading this file, here is a note about terminology.
+ * 
+ * Variables with ex1 in the variable name are regard the first experiment.
+ * Variables with ex2 and ex3, regard the second and third experiment respectively.
+ *
+ * This experiment always presents the first experiment first. However,
+ * the order of the second and third experiments is
+ * counterbalanced. This means that a variable mentioning
+ * the third experiment (a variable with ex3 in its name) might 
+ * actually be presented as second experiment.
+ */
+
+// The instruction used before the first practise.
+string prac_instructions_ex1 = 
+    "<b>Dear participant,</b>\n"
+    "\n"
+    "Thank you for participating in this experiment.\n"
+    "\n"
+    "The experiment has three blocks."
+    "In each block, you are going to hear sounds from the speakers. "
+    "The sounds <i> differ in melody</i> and come in pairs. Your task is to judge "
+    "each pair as quickly as possible whether you think the "
+    "two sounds are <i>the same</i> or <i>different</i> after you hear the sounds.\n"
+    "\n"
+
+    "To respond, hit the left button on the button-box for "
+    "<i>Same</i> and the right button for <i>Different</i>.\n"
+
+    "Now you are going to do Session 1.\n"
+
+    "In the first block, you are going to hear all the sounds in "
+    "<i>monosyllable</i>. "
+    "\n"
+
+    "\n"
+    "First we will do a short practice.\n"
+    "\n"
+    "<i>Hit any button on the button-box when ready to start.</i>";
+
+// The instruction used before the second practise.
+string prac_instructions_ex2 = 
+    "<b>Dear participant,</b>\n"
+    "\n"
+   
+    "You can take a break for 3 minutes <i>(strongly suggested)</i>. \n"
+    "After the break, you are going to do the next block.\n"
+    "\n"
+    "In the coming block, you are going to hear all the sounds in <i>three-syllable</i>.\n"
+    "<i>Hit any button on the button-box when ready to start. \n"
+    "</i> If you have any questions, please ask the experimenter.";
+
+// The instruction used before the third practise.
+string prac_instructions_ex3 = 
+    "<b>Dear participant,</b>\n"
+    "\n"
+    "You can take a break for 3 minutes <i>(strongly suggested)</i>. \n"
+    "After the break, you are going to do the next block.\n"
+    "\n"
+    "In the coming block, you are going to hear all the sounds in <i>three-syllable</i>.\n"
+    "\n"
+    "This block is longer than the previous one. So you will be instructed to take a short break during this block.\n"
+    "<i>Hit any button on the button-box when ready to start. \n"
+    "</i> If you have any questions, please ask the experimenter.";
+
+// The instruction after the first practise.
+string end_prac_instruction_ex1 = 
+    "End of the practice part.\n"
+    "\n"
+    "Now you are going to the test part.\n"
+    "\n"
+    "If you have any questions at this moment, please ask the "
+    "experimenter now.\n"
+    "\n"
+//    "<i>Hit Enter when ready to proceed.</i>", 
+    "<i>Hit any button on the button-box when ready to "
+    "proceed.</i>";
+
+// The instruction after the second experiments practise.
+string end_prac_instruction_ex2 = 
+    "End of the practice part.\n"
+    "\n"
+    "Now you are going to the test part.\n"
+    "\n"
+    "If you have any questions at this moment, please ask the "
+    "experimenter now.\n"
+    "\n"
+//    "<i>Hit Enter when ready to proceed.</i>", 
+    "<i>Hit any button on the button-box when ready to "
+    "proceed.</i>";
+
+// The instruction after the third experiments practise.
+string end_prac_instruction_ex3 = 
+    "End of the practice part.\n"
+    "\n"
+    "Now you are going to the test part.\n"
+    "\n"
+    "If you have any questions at this moment, please ask the "
+    "experimenter now.\n"
+    "\n"
+//    "<i>Hit Enter when ready to proceed.</i>", 
+    "<i>Hit any button on the button-box when ready to "
+    "proceed.</i>";
+
+

@@ -1,0 +1,60 @@
+/******************************************************************************\
+FILE:           grouping.zm
+AUTHOR:         Theo Veenker <theo.veenker@beexy.nl>
+ADAPTED BY:     -
+
+DESCRIPTION:
+
+Defines groups and handles participant group assignment.
+
+
+HISTORY:
+2011-06-07 TV   Created as part of the standard Zep modules.
+
+\******************************************************************************/
+
+
+// Symbolic definition of groups.
+enum TestGroup
+{
+    NL,
+    MAN,
+    FR,
+    JPN
+}
+
+
+/**
+ * Assigns participant id's to a group.
+ *
+ * participants   1 -  40  -> NL
+ * participants  41 -  80  -> MAN
+ * participants  81 - 120  -> FR
+ * participants 121 - 160  -> JPN
+ *
+ * this pattern repeats after 160 so adding 160 to a ppid shoudl result in the same group.
+ */
+int assign_participant_to_group()
+{
+    // Assign to first (i.e default) group.
+    if (!is_valid_int(expdb.participant.id))
+        println("The participant isn't a valid integer/number");
+
+    TestGroup g;
+
+    int ppid = int(expdb.participant.id) - 1;
+
+    int group = ppid/40;
+    //println("group = " + string(group % 4) + "default group = " + select_group_default());
+    group = group % 4;
+    int i = 0;
+    while(i < group) {
+        g++;
+        i++;
+    }
+
+    // defined in std_database.zm
+    selected_group = g;
+
+    return OK; //select_group_default();
+}

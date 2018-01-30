@@ -1,0 +1,40 @@
+/******************************************************************************\
+FILE:           defs.zm
+AUTHOR:         Theo Veenker <theo.veenker@beexy.nl>
+ADAPTED BY:     -
+
+DESCRIPTION:
+
+Defines experiment settings such as for trial timing.
+
+
+HISTORY:
+2012-01-30 TV   Created.
+
+\******************************************************************************/
+
+
+// Duration of the interval between two trials.
+const dur       INTERTRIAL_INTERVAL             = 1000ms;
+
+// Duration of the interval between the stimuli in a trial.
+// the blocknumber refer to the order all participants
+// encounter the three experiements so block2 is allways
+// the interstimulus time used in the second block.
+const dur       ISI_BLOCK1                      = 800ms;
+const dur       ISI_BLOCK2                      = 1600ms;
+const dur       ISI_BLOCK3                      = 1600ms;
+
+// Duration of the fixation symbol presentation.
+const dur       FIXATION_DURATION               = 1000ms;
+
+// Duration of the feedback presentation.
+const dur       FEEDBACK_DURATION               = 1000ms;
+
+// Duration of the response interval. A value of 0ms means there is no
+// timeout.
+const dur       RESPONSE_DURATION               = 3100ms;       // auto-paced
+//const dur       RESPONSE_DURATION               = 0ms;          // self-paced
+
+string          SHORT_BREAK_TEXT                = "You may have a small break\n"
+                                                  "press the spacebar to continue.";

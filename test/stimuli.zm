@@ -1,0 +1,682 @@
+/******************************************************************************\
+FILE:           stimuli.zm
+AUTHOR:         Theo Veenker <theo.veenker@beexy.nl>
+ADAPTED BY:     Maarten Duijndam
+
+DESCRIPTION:
+
+Defines the formats of item table(s) and provides the actual content of
+the item table(s) i.e. stimulus information.
+
+
+HISTORY:
+2012-01-30 TV   Created.
+
+\******************************************************************************/
+
+
+// Symbolic definition of stimulus type.
+enum StimType
+{
+    S1,                 // T1
+    S3,                 // T3
+    S4,                 // T4
+    S5,                 // T5
+    S6,                 // T6
+    S7,                 // 113
+    S8,                 // 131
+    S9,                 // 311
+    S10,                // 114
+    S11,                // 141
+    S12,                // 411
+    S13,                // 115 
+    S14,                // 151
+    S15,                // 511
+    S16,                // 116
+    S17,                // 161      
+    S18,                // 611
+    S19,                // 331
+    S20,                // 313
+    S21,                // 133
+    S22,                // 334
+    S23,                // 343
+    S24,                // 433
+    S25,                // 335
+    S26,                // 353
+    S27,                // 533
+    S28,                // 336
+    S29,                // 363
+    S30,                // 633
+    S31,                // 661
+    S32,                // 616
+    S33,                // 166
+    S34,                // 663
+    S35,                // 636
+    S36,                // 366
+    S37,                // 664
+    S38,                // 646
+    S39,                // 466
+    S40,                // 665
+    S41,                // 656
+    S42,                // 566
+    S43,                // 111
+    S44,                // 333
+    S45,                // 666
+    S46,                // 444
+    S47,                // 555
+    FILL,               // just a filler
+}
+
+// Identifiers for the number of experiment
+enum Exp
+{
+    PRAC1,
+    PRAC2,
+    PRAC3,
+    EX1,
+    EX2,
+    EX3//
+}
+
+// Item table record.
+record TestItem
+{
+    Exp         nexp;           // number of experiment
+    int         id;             // item id
+    StimType    type1;          // stimulus type for first interval
+    StimType    type2;          // stimulus type for second interval
+    string      sndfn1;         // stimulus sound filename first interval
+    string      sndfn2;         // stimulus sound filename second interval
+}
+
+void append_test_item(TestItem[] items, TestItem item)
+{
+    items.size = items.size + 1;
+    items[items.size - 1] = item;
+}
+
+
+// Practice item table for the first experiment.
+//   index: item number
+TestItem[..] prac_items_ex1 =
+{
+    {PRAC1,  1,         S1,     S6,     "T1-2.wav",    "T6-3.wav"},
+    {PRAC1,  2,         S3,     S5,     "T3-2.wav",    "T5-3.wav"},
+    {PRAC1,  3,         S1,   S3,   "T1-2.wav",    "T3-3.wav"},
+    {PRAC1,  4,         S4,     S1,     "T4-2.wav",    "T1-3.wav"},
+    {PRAC1,  5,         S3,     S5,     "T3-2.wav",    "T5-2.wav"},
+    {PRAC1,  6,         FILL,   FILL,   "T1-2.wav",    "T1-3.wav"},
+};
+
+// Practice item table for the first experiment.
+//   index: item number
+TestItem[..] prac_items_ex2 =
+{
+    {PRAC2,  1,         S10,     S11,     "141-2.wav",    "411-2.wav"},
+    {PRAC2,  2,         S23,     S23,     "343-2.wav",    "343-3.wav"},
+    {PRAC2,  3,         S42,     S40,     "566-3.wav",    "665-2.wav"},
+    {PRAC2,  4,         S21,     S20,     "133-2.wav",    "313-3.wav"},
+    {PRAC2,  5,         FILL,   FILL,     "636-3.wav",    "636-2.wav"},
+    {PRAC2,  6,         FILL,   FILL,     "115-2.wav",    "115-3.wav"},
+};
+
+// Practice item table for the first experiment.
+//   index: item number
+TestItem[..] prac_items_ex3 =
+{
+    {PRAC3,  1,         S9,      S12,     "311-2.wav",    "411-2.wav"},
+    {PRAC3,  2,         S39,     S39,     "466-2.wav",    "466-3.wav"},
+    {PRAC3,  3,         S27,     S30,     "533-2.wav",    "633-3.wav"},
+    {PRAC3,  4,         S41,     S38,     "656-2.wav",    "646-3.wav"},
+    {PRAC3,  5,         FILL,   FILL,     "331-2.wav",    "311-3.wav"},
+    {PRAC3,  6,         FILL,   FILL,     "151-3.wav",    "151-2.wav"},
+};
+
+// Test item table.
+//   index: item number
+TestItem[..] test_items =
+{
+    {EX1,    1,         S1,     S3,     "T1-2.wav",    "T3-3.wav"},
+    {EX1,    2,         S4,     S1,     "T4-2.wav",    "T1-2.wav"},
+    {EX1,    3,         S1,     S5,     "T1-3.wav",    "T5-2.wav"},
+    {EX1,    4,         S6,     S1,     "T6-3.wav",    "T1-3.wav"},
+    {EX1,    5,         S3,     S4,     "T3-3.wav",    "T4-2.wav"},
+    {EX1,    6,         S5,     S3,     "T5-2.wav",    "T3-3.wav"},
+    {EX1,    7,         S3,     S6,     "T3-3.wav",    "T6-2.wav"},
+    {EX1,    8,         S4,     S5,     "T4-2.wav",    "T5-3.wav"},
+    {EX1,    9,         S6,     S4,     "T6-2.wav",    "T4-3.wav"},
+    {EX1,    10,         S5,     S6,     "T5-2.wav",    "T6-3.wav"},
+    {EX1,    11,         FILL,   FILL,   "T1-2.wav",    "T1-3.wav"},
+    {EX1,    12,         FILL,   FILL,   "T3-3.wav",    "T3-2.wav"},
+    {EX1,    13,         FILL,   FILL,   "T4-2.wav",    "T4-2.wav"},
+    {EX1,    14,         FILL,   FILL,   "T5-3.wav",    "T5-3.wav"},
+    {EX1,    15,         FILL,   FILL,   "T6-2.wav",    "T6-3.wav"},
+    {EX1,    16,         FILL,   FILL,   "T6-3.wav",    "T6-2.wav"},
+    {EX1,    17,         FILL,   FILL,   "T5-3.wav",    "T5-2.wav"},
+    {EX1,    18,         FILL,   FILL,   "T4-3.wav",    "T4-2.wav"},
+    {EX1,    19,         FILL,   FILL,   "T3-2.wav",    "T3-3.wav"},
+    {EX1,    20,         FILL,   FILL,   "T1-3.wav",    "T1-2.wav"},
+    
+    {EX2,   21,         S7,       S8,     "113-2.wav",    "131-2.wav"},
+    {EX2,   22,         S9,       S7,     "311-3.wav",    "113-2.wav"},
+    {EX2,   23,         S8,       S9,     "131-3.wav",    "311-2.wav"},
+    {EX2,   24,         S10,     S11,     "114-2.wav",    "141-3.wav"},
+    {EX2,   25,         S12,     S11,     "411-3.wav",    "114-2.wav"},
+    {EX2,   26,         S11,     S12,     "141-3.wav",    "411-2.wav"},
+    {EX2,   27,         S13,     S14,     "115-2.wav",    "151-2.wav"},
+    {EX2,   28,         S15,     S13,     "511-3.wav",    "115-2.wav"},
+    {EX2,   29,         S14,     S15,     "151-3.wav",    "511-2.wav"},
+    {EX2,   30,         S16,     S17,     "116-2.wav",    "161-3.wav"},
+    {EX2,   31,         S18,     S16,     "611-3.wav",    "116-2.wav"},
+    {EX2,   32,         S17,     S18,     "161-3.wav",    "611-2.wav"},
+    {EX2,   33,         S19,     S20,     "331-2.wav",    "313-2.wav"},
+    {EX2,   34,         S21,     S20,     "133-3.wav",    "331-2.wav"},
+    {EX2,   35,         S20,     S21,     "313-3.wav",    "133-3.wav"},
+    {EX2,   36,         S22,     S23,     "334-2.wav",    "343-2.wav"},
+    {EX2,   37,         S24,     S22,     "433-3.wav",    "334-2.wav"},
+    {EX2,   38,         S23,     S24,     "343-3.wav",    "433-3.wav"},
+    {EX2,   39,         S25,     S26,     "335-2.wav",    "353-2.wav"},
+    {EX2,   40,         S27,     S25,     "533-3.wav",    "335-2.wav"},
+    {EX2,   41,         S26,     S27,     "353-3.wav",    "533-2.wav"},
+    {EX2,   42,         S28,     S29,     "336-2.wav",    "363-3.wav"},
+    {EX2,   43,         S30,     S28,     "633-3.wav",    "336-2.wav"},
+    {EX2,   44,         S29,     S30,     "363-3.wav",    "633-2.wav"},
+    {EX2,   45,         S31,     S32,     "661-2.wav",    "616-3.wav"},
+    {EX2,   46,         S33,     S31,     "166-3.wav",    "661-2.wav"},
+    {EX2,   47,         S32,     S33,     "616-3.wav",    "166-2.wav"},
+    {EX2,   48,         S34,     S35,     "663-2.wav",    "636-3.wav"},
+    {EX2,   49,         S36,     S34,     "366-3.wav",    "663-2.wav"},
+    {EX2,   50,         S35,     S36,     "636-3.wav",    "366-2.wav"},
+    {EX2,   51,         S37,     S38,     "664-2.wav",    "646-2.wav"},
+    {EX2,   52,         S38,     S39,     "646-3.wav",    "466-3.wav"},
+    {EX2,   53,         S39,     S37,     "466-3.wav",    "664-2.wav"},
+    {EX2,   54,         S40,     S41,     "665-2.wav",    "656-3.wav"},
+    {EX2,   55,         S42,     S40,     "566-3.wav",    "665-2.wav"},
+    {EX2,   56,         S41,     S42,     "656-2.wav",    "566-3.wav"},
+    {EX2,   57,         FILL,   FILL,     "111-3.wav",    "111-2.wav"},
+    {EX2,   58,         FILL,   FILL,     "333-2.wav",    "333-2.wav"},
+    {EX2,   59,         FILL,   FILL,     "666-2.wav",    "666-3.wav"},
+    {EX2,   60,         FILL,   FILL,     "444-3.wav",    "444-2.wav"},
+    {EX2,   61,         FILL,   FILL,     "555-2.wav",    "555-2.wav"},
+    {EX2,   62,        FILL,   FILL,     "566-3.wav",    "566-2.wav"},
+    {EX2,   63,        FILL,   FILL,     "633-3.wav",    "633-3.wav"},
+    {EX2,   64,        FILL,   FILL,     "511-2.wav",    "511-3.wav"},
+    {EX2,   65,        FILL,   FILL,     "433-2.wav",    "433-3.wav"},
+    {EX2,   66,        FILL,   FILL,     "343-3.wav",    "343-2.wav"},
+    {EX2,   67,         FILL,   FILL,    "113-3.wav",    "113-2.wav"},
+    {EX2,   68,         FILL,   FILL,    "433-3.wav",    "433-2.wav"},
+    {EX2,   69,         FILL,   FILL,    "353-3.wav",    "353-2.wav"},
+    {EX2,   70,         FILL,   FILL,    "664-2.wav",    "664-3.wav"},
+    {EX2,   71,         FILL,   FILL,    "151-2.wav",    "151-2.wav"},
+    {EX2,   72,        FILL,   FILL,     "663-2.wav",    "663-3.wav"},
+    {EX2,   73,        FILL,   FILL,     "166-2.wav",    "166-3.wav"},
+    {EX2,   74,        FILL,   FILL,     "313-3.wav",    "313-2.wav"},
+    {EX2,   75,        FILL,   FILL,     "656-2.wav",    "656-3.wav"},
+    {EX2,   76,        FILL,   FILL,     "133-2.wav",    "133-3.wav"},
+    {EX2,   77,         FILL,   FILL,    "336-2.wav",    "336-3.wav"},
+    {EX2,   78,         FILL,   FILL,    "646-3.wav",    "646-2.wav"},
+    {EX2,   79,         FILL,   FILL,    "466-3.wav",    "466-3.wav"},
+    {EX2,   80,         FILL,   FILL,    "151-2.wav",    "151-3.wav"},
+    {EX2,   81,         FILL,   FILL,    "646-2.wav",    "646-3.wav"},
+
+    {EX3,   82,        S43,     S12,     "111-2.wav",    "411-2.wav"},
+    {EX3,   83,        S15,     S43,     "511-2.wav",    "111-3.wav"},
+    {EX3,   84,        S43,     S18,     "111-3.wav",    "611-2.wav"},
+    {EX3,   85,        S9,      S12,     "311-2.wav",    "411-3.wav"},
+    {EX3,   86,        S15,      S9,     "511-3.wav",    "311-2.wav"},
+    {EX3,   87,        S9,      S18,     "311-3.wav",    "611-2.wav"},
+    {EX3,   88,        S15,     S12,     "511-2.wav",    "411-3.wav"},
+    {EX3,   89,        S18,     S12,     "411-2.wav",    "611-3.wav"},
+    {EX3,   90,        S15,     S18,     "611-3.wav",    "511-2.wav"},
+    {EX3,   91,        S43,     S8,      "111-3.wav",    "131-2.wav"},
+    {EX3,   92,        S11,     S43,     "141-3.wav",    "111-3.wav"},
+    {EX3,   93,        S43,     S14,     "111-2.wav",    "151-2.wav"},
+    {EX3,   94,        S17,     S43,     "161-3.wav",    "111-2.wav"},
+    {EX3,   95,        S8,      S11,     "131-2.wav",    "141-3.wav"},
+    {EX3,   96,        S14,      S8,     "151-2.wav",    "131-2.wav"},
+    {EX3,   97,        S8,      S17,     "131-3.wav",    "161-2.wav"},
+    {EX3,   98,        S11,     S14,     "141-2.wav",    "151-3.wav"},
+    {EX3,   99,        S17,     S11,     "161-3.wav",    "141-3.wav"},
+    {EX3,   100,       S14,     S17,     "151-2.wav",    "161-2.wav"},
+    {EX3,   101,        S43,     S7,      "111-2.wav",    "113-3.wav"},
+    {EX3,   102,        S10,     S43,     "114-3.wav",    "111-2.wav"},
+    {EX3,   103,        S43,     S13,     "111-2.wav",    "115-2.wav"},
+    {EX3,   104,        S43,     S16,     "111-2.wav",    "116-3.wav"},
+    {EX3,   105,        S7,      S10,     "113-3.wav",    "114-2.wav"},
+    {EX3,   106,        S13,      S7,     "115-3.wav",    "113-2.wav"},
+    {EX3,   107,        S7,      S16,     "113-2.wav",    "116-3.wav"},
+    {EX3,   108,        S10,     S13,     "114-2.wav",    "115-3.wav"},
+    {EX3,   109,        S16,     S10,     "116-2.wav",    "114-3.wav"},
+    {EX3,   110,        S13,     S16,     "115-2.wav",    "116-3.wav"},
+    {EX3,   111,        S44,     S21,     "333-3.wav",    "133-2.wav"},
+    {EX3,   112,        S21,     S24,     "133-2.wav",    "433-3.wav"},
+    {EX3,   113,        S27,     S21,     "533-3.wav",    "133-2.wav"},
+    {EX3,   114,        S21,     S30,     "133-2.wav",    "633-3.wav"},
+    {EX3,   115,        S24,     S44,     "433-2.wav",    "333-3.wav"},
+    {EX3,   116,        S44,     S27,     "333-3.wav",    "533-2.wav"},
+    {EX3,   117,        S30,     S44,     "633-2.wav",    "333-3.wav"},
+    {EX3,   118,        S27,     S24,     "533-2.wav",    "433-3.wav"},
+    {EX3,   119,        S24,     S30,     "433-2.wav",    "633-2.wav"},
+    {EX3,   120,        S30,     S27,     "633-2.wav",    "533-3.wav"},
+    {EX3,   121,        S20,     S44,     "313-2.wav",    "333-3.wav"},
+    {EX3,   122,        S23,     S20,     "343-3.wav",    "313-2.wav"},
+    {EX3,   123,        S20,     S26,     "313-2.wav",    "353-3.wav"},
+    {EX3,   124,        S20,     S29,     "363-2.wav",    "313-3.wav"},
+    {EX3,   125,        S44,     S23,     "333-3.wav",    "343-2.wav"},
+    {EX3,   126,        S26,     S44,     "353-2.wav",    "333-3.wav"},
+    {EX3,   127,        S44,     S29,     "333-3.wav",    "363-2.wav"},
+    {EX3,   128,        S26,     S23,     "353-2.wav",    "343-3.wav"},
+    {EX3,   129,        S23,     S29,     "343-2.wav",    "363-3.wav"},
+    {EX3,   130,        S26,     S29,     "363-3.wav",    "353-2.wav"},
+    {EX3,   131,        S44,     S19,     "333-2.wav",    "331-3.wav"},
+    {EX3,   132,        S19,     S22,     "331-2.wav",    "334-3.wav"},
+    {EX3,   133,        S25,     S19,     "335-3.wav",    "331-2.wav"},
+    {EX3,   134,        S19,     S28,     "331-2.wav",    "336-3.wav"},
+    {EX3,   135,        S22,     S44,     "334-3.wav",    "333-2.wav"},
+    {EX3,   136,        S44,     S25,     "333-3.wav",    "335-2.wav"},
+    {EX3,   137,        S28,     S44,     "336-2.wav",    "333-3.wav"},
+    {EX3,   138,        S25,     S22,     "335-3.wav",    "334-2.wav"},
+    {EX3,   139,        S22,     S28,     "334-2.wav",    "336-2.wav"},
+    {EX3,   140,        S28,     S25,     "336-3.wav",    "335-2.wav"},
+    {EX3,   141,        S33,     S36,     "166-2.wav",    "366-3.wav"},
+    {EX3,   142,        S39,     S33,     "466-2.wav",    "166-3.wav"},
+    {EX3,   143,        S33,     S42,     "166-3.wav",    "566-2.wav"},
+    {EX3,   144,        S45,     S33,     "666-2.wav",    "166-3.wav"},
+    {EX3,   145,        S36,     S39,     "366-2.wav",    "466-2.wav"},
+    {EX3,   146,        S42,     S36,     "566-3.wav",    "366-2.wav"},
+    {EX3,   147,        S36,     S45,     "366-2.wav",    "666-2.wav"},
+    {EX3,   148,        S39,     S42,     "466-2.wav",    "566-3.wav"},
+    {EX3,   149,        S45,     S39,     "666-3.wav",    "466-2.wav"},
+    {EX3,   150,        S42,     S45,     "566-3.wav",    "666-2.wav"},
+    {EX3,   151,        S35,     S32,     "636-2.wav",    "616-3.wav"},
+    {EX3,   152,        S32,     S38,     "616-3.wav",    "646-2.wav"},
+    {EX3,   153,        S41,     S32,     "656-3.wav",    "616-2.wav"},
+    {EX3,   154,        S32,     S45,     "616-2.wav",    "666-3.wav"},
+    {EX3,   155,        S38,     S35,     "646-3.wav",    "636-2.wav"},
+    {EX3,   156,        S35,     S41,     "636-3.wav",    "656-2.wav"},
+    {EX3,   157,        S45,     S35,     "666-2.wav",    "636-3.wav"},
+    {EX3,   158,        S41,     S38,     "656-2.wav",    "646-3.wav"},
+    {EX3,   159,        S45,     S41,     "666-2.wav",    "656-3.wav"},
+    {EX3,   160,        S31,     S34,     "661-3.wav",    "663-2.wav"},
+    {EX3,   161,        S37,     S31,     "664-2.wav",    "661-3.wav"},
+    {EX3,   162,        S31,     S40,     "661-2.wav",    "665-3.wav"},
+    {EX3,   163,        S45,     S31,     "666-3.wav",    "661-2.wav"},
+    {EX3,   164,        S34,     S37,     "663-2.wav",    "664-3.wav"},
+    {EX3,   165,        S40,     S34,     "665-3.wav",    "663-2.wav"},
+    {EX3,   166,        S34,     S45,     "663-3.wav",    "666-2.wav"},
+    {EX3,   167,        S37,     S40,     "664-2.wav",    "665-3.wav"},
+    {EX3,   168,        S45,     S37,     "666-3.wav",    "664-2.wav"},
+    {EX3,   169,        S40,     S45,     "665-3.wav",    "666-2.wav"},
+    {EX3,   170,        S9,      S43,     "311-3.wav",    "111-2.wav"},
+    {EX3,   171,        FILL,    FILL,    "111-2.wav",    "111-3.wav"},
+    {EX3,   172,        FILL,    FILL,    "333-3.wav",    "333-2.wav"},
+    {EX3,   173,         FILL,    FILL,   "444-2.wav",    "444-2.wav"},
+    {EX3,   174,         FILL,    FILL,   "555-2.wav",    "555-3.wav"},
+    {EX3,   175,         FILL,    FILL,    "666-3.wav",    "666-2.wav"},
+    {EX3,   176,         FILL,    FILL,    "113-2.wav",    "113-2.wav"},
+    {EX3,   177,         FILL,    FILL,    "114-2.wav",    "114-3.wav"},
+    {EX3,   178,        FILL,    FILL,     "115-3.wav",    "115-2.wav"},
+    {EX3,   179,         FILL,    FILL,    "116-3.wav",    "116-2.wav"},
+    {EX3,   180,         FILL,    FILL,    "311-2.wav",    "311-3.wav"},
+    {EX3,   181,        FILL,    FILL,    "411-3.wav",    "411-2.wav"},
+    {EX3,   182,        FILL,    FILL,    "511-2.wav",    "511-3.wav"},
+    {EX3,   183,         FILL,    FILL,   "611-3.wav",    "611-2.wav"},
+    {EX3,   184,         FILL,    FILL,   "131-2.wav",    "131-3.wav"},
+    {EX3,   185,         FILL,    FILL,    "141-3.wav",    "141-3.wav"},
+    {EX3,   186,         FILL,    FILL,    "151-3.wav",    "151-2.wav"},
+    {EX3,   187,         FILL,    FILL,    "161-2.wav",    "161-3.wav"},
+    {EX3,   188,        FILL,    FILL,     "331-3.wav",    "331-2.wav"},
+    {EX3,   189,         FILL,    FILL,    "334-3.wav",    "334-2.wav"},
+    {EX3,   190,         FILL,    FILL,    "335-2.wav",    "335-3.wav"},
+    {EX3,   191,        FILL,    FILL,    "336-3.wav",    "336-2.wav"},
+    {EX3,   192,        FILL,    FILL,    "313-2.wav",    "313-3.wav"},
+    {EX3,   193,         FILL,    FILL,   "343-3.wav",    "343-2.wav"},
+    {EX3,   194,         FILL,    FILL,   "353-2.wav",    "353-3.wav"},
+    {EX3,   195,         FILL,    FILL,    "363-3.wav",    "363-2.wav"},
+    {EX3,   196,         FILL,    FILL,    "133-3.wav",    "133-2.wav"},
+    {EX3,   197,         FILL,    FILL,    "433-2.wav",    "433-3.wav"},
+    {EX3,   198,        FILL,    FILL,     "533-3.wav",    "533-2.wav"},
+    {EX3,   199,         FILL,    FILL,    "633-3.wav",    "633-2.wav"},
+    {EX3,   200,         FILL,    FILL,    "166-2.wav",    "166-3.wav"},
+    {EX3,   201,        FILL,    FILL,    "366-2.wav",    "366-3.wav"},
+    {EX3,   202,        FILL,    FILL,    "466-3.wav",    "466-2.wav"},
+    {EX3,   203,         FILL,    FILL,   "566-3.wav",    "566-2.wav"},
+    {EX3,   204,         FILL,    FILL,   "616-2.wav",    "616-3.wav"},
+    {EX3,   205,         FILL,    FILL,    "636-3.wav",    "636-2.wav"},
+    {EX3,   206,         FILL,    FILL,    "646-3.wav",    "646-2.wav"},
+    {EX3,   207,         FILL,    FILL,    "656-2.wav",    "656-3.wav"},
+    {EX3,   208,        FILL,    FILL,     "561.wav",    "561.wav"},
+    {EX3,   209,         FILL,    FILL,    "345.wav",    "345.wav"},
+    {EX3,   210,         FILL,    FILL,    "145.wav",    "145.wav"},
+    {EX3,   211,        FILL,    FILL,    "655.wav",    "655.wav"},
+    {EX3,   212,        FILL,    FILL,    "354.wav",    "354.wav"},
+    {EX3,   213,         FILL,    FILL,   "453.wav",    "453.wav"},
+    {EX3,   214,         FILL,    FILL,   "536.wav",    "536.wav"},
+    {EX3,   215,         FILL,    FILL,    "135.wav",    "135.wav"},
+    {EX3,   216,         FILL,    FILL,    "146.wav",    "146.wav"},
+    {EX3,   217,         FILL,    FILL,    "156.wav",    "156.wav"},
+    {EX3,   218,        FILL,    FILL,     "346.wav",    "346.wav"},
+    {EX3,   219,         FILL,    FILL,    "356.wav",    "356.wav"},
+    {EX3,   220,         FILL,    FILL,    "634.wav",    "634.wav"},
+    {EX3,   221,        FILL,    FILL,    "635.wav",    "635.wav"},
+    {EX3,   222,        FILL,    FILL,    "645.wav",    "645.wav"},
+    {EX3,   223,         FILL,    FILL,   "435.wav",    "435.wav"},
+    {EX3,   224,         FILL,    FILL,   "456.wav",    "456.wav"},
+    {EX3,   225,         FILL,    FILL,    "534.wav",    "534.wav"},
+    {EX3,   226,         FILL,    FILL,    "546.wav",    "546.wav"},
+    {EX3,   227,         FILL,    FILL,    "563.wav",    "563.wav"},
+    {EX3,   228,        FILL,    FILL,     "315.wav",    "315.wav"},
+    {EX3,   229,         FILL,    FILL,    "136.wav",    "136.wav"},
+    {EX3,   230,         FILL,    FILL,    "564.wav",    "564.wav"},
+    {EX3,   231,        S38,     S45,     "646-2.wav",    "666-3.wav"},
+};
+
+TestItem[..] test_items_ex1;
+TestItem[..] test_items_ex2;
+TestItem[..] test_items_ex3;
+
+
+/**
+ * fetches 1 item from from a testitem array.
+ * @param items Make sure items not is NULL/none and
+ *        items is not empty.
+ *
+ * returns the last testitem in the input array.
+ */
+TestItem discard_item(TestItem[] items) {
+    TestItem ret = items[items.size - 1];
+    items.size = items.size - 1;
+    return ret;
+}
+
+/*
+ * swap TestItem i with TestItem j
+ */
+void swap_test_item(TestItem[] items, int i, int j)
+{
+    //println("j = " + string(j));
+    TestItem temp = items[i];
+    items[i] = items[j];
+    items[j] = temp;
+}
+
+/**
+ * Test if there are no more then max_sub consecutive fillers
+ * or non fillers in a row.
+ */
+bool is_valid_test_item_array(TestItem[] items, int max_sub)
+{
+    int i = max_sub;
+    while (i < items.size)
+    {
+        bool is_invalid = true;
+        if (items[i].type1 == FILL)
+        {
+            int j = i - 1;
+            while (j >= i - max_sub)
+            {
+                if (items[j].type1 != FILL){
+                    is_invalid = false;
+                    break;
+                }
+                j--;
+            }
+        }
+        else // its not a filler
+        {
+            int j = i - 1;
+            while (j >= i - max_sub)
+            {
+                if (items[j].type1 == FILL){
+                    is_invalid = false;
+                    break;
+                }
+                j--;
+            }
+        }
+
+        if (is_invalid) {
+            return false;
+        }
+        i++;
+    }
+
+    return true;
+}
+
+void append_int_array(int[] ints, int val)
+{
+    ints.size = ints.size +1;
+    ints[ints.size-1] = val;
+}
+
+
+/*
+ * This functions finds an index to a filler item
+ * that is swapable, whithout breaking the max number
+ * of subsequent filler constraint.
+ */
+int find_swapable_filler(TestItem[] items, int max_sub)
+{
+    int[..] swapable;
+
+    int i = 0;
+    // fill temp with a frament of the items. If we can
+    // replace item i with a non-filler the item is swapable
+    while (i < items.size) {
+        bool is_swapable = false;
+        if (items[i].type1 != FILL) {
+            i++;
+            continue;
+        }
+        TestItem[..] temp;
+
+        int start = max(i - max_sub, 0);
+        int stop = min(i + max_sub, items.size - 1);
+        int j = start;
+        while (j <= stop)
+        {
+            append_test_item(temp, items[j]);
+            j++;
+        }
+
+        temp[i - start].type1 = S1;
+        if (is_valid_test_item_array(temp, max_sub) )
+        {
+            append_int_array(swapable, i);
+        }
+        i++;
+    }
+
+    if (swapable.size == 0)
+        return -1;
+    return swapable[random(0, swapable.size)];
+}
+
+/*
+ * This functions finds an index to a filler item
+ * that is swapable, whithout breaking the max number
+ * of subsequent filler constraint.
+ */
+int find_swapable_non_filler(TestItem[] items, int max_sub)
+{
+    int[..] swapable;
+
+    int i = 0;
+    // fill temp with a frament of the items. If we can
+    // replace item i with a non-filler the item is swapable
+    while (i < items.size) {
+        bool is_swapable = false;
+        if (items[i].type1 == FILL) {
+            i++;
+            continue;
+        }
+        TestItem[..] temp;
+
+        int start = max(i - max_sub, 0);
+        int stop = min(i + max_sub, items.size - 1);
+        int j = start;
+        while (j <= stop)
+        {
+            append_test_item(temp, items[j]);
+            j++;
+        }
+
+        temp[i - start].type1 = FILL;
+        if (is_valid_test_item_array(temp, max_sub) )
+        {
+            append_int_array(swapable, i);
+        }
+        i++;
+    }
+
+    if (swapable.size == 0)
+        return -1;
+    return swapable[random(0, swapable.size)];
+}
+
+bool is_valid_filler(TestItem[] items, int i, int m)
+{
+    int j = i;
+    while (j >= max(i - m, 0))
+    {
+        if (items[j].type1 != FILL)
+            return true;
+        j--;
+    }
+    return false;
+}
+
+bool is_valid_non_filler(TestItem[] items, int i, int m)
+{
+    int j = i;
+    while (j >= max(i - m, 0))
+    {
+        if (items[j].type1 == FILL)
+            return true;
+        j--;
+    }
+    return false;
+}
+
+/**
+ * shuffles so that no more than 3 test items or filler items are 
+ * presented consecutively.
+ *
+ * @param items the items to be shuffled.
+ * @param maximum allowed number of consequtive items
+ */
+int shuffle_and_reorder(TestItem[] items, int max)
+{
+    int i = max;
+    
+    int ntries = 10000;
+    int start = ntries;
+
+    while (ntries>0)
+    {
+        items.shuffle(0,-1);
+
+        while (i < items.size)
+        {
+            if (items[i].type1 == FILL && !is_valid_filler(items, i, max) )
+            {
+                int j = find_swapable_non_filler(items, max);
+                // no swapable item found.
+                if (j < 0)
+                    break;
+                //print (i); print(" "); println(j);
+                swap_test_item(items, i, j);
+            }
+
+            if (items[i].type1 != FILL && !is_valid_non_filler(items, i, max) )
+            {
+                int j = find_swapable_filler(items, max);
+                // no swapable item found.
+                if (j < 0)
+                    break;
+                //print (i); print(" "); println(j);
+                swap_test_item(items, i, j);
+            }
+
+            i++;
+        }
+
+        if (is_valid_test_item_array(items, max) ) {
+            //println("ntries = " + string(start - ntries));
+            return OK;
+        }
+        ntries--;
+    }
+    return ERROR;
+}
+
+
+// Not used, only handy while testing.
+void dump_test_items(TestItem[] items)
+{
+    int i = 0;
+    while (i < items.size) {
+        TestItem it = items[i];
+        println( string(it.nexp)   + '\t' +
+                 string(it.id)     + '\t' +
+                 string(it.type1)  + '\t' +
+                 string(it.type2)  + '\t' +
+                 string(it.sndfn1) + '\t' +
+                 string(it.sndfn2)
+                 );
+        i++;
+    }
+}
+
+bool create_test_items()
+{
+    int i = 0;
+
+    // make sure items are not appended.
+    test_items_ex1.size = 0;
+    test_items_ex2.size = 0;
+    test_items_ex3.size = 0;
+
+    // max_subsequent allowed items
+    int max_sub = 3;
+
+    /*
+     * The next loops over all test items and puts the testitems in
+     * the the right test array. These test arrays are finally used
+     * for selecting trials in the experiment.
+     */
+    while (i < test_items.size) {
+        if (test_items[i].nexp == EX1) {
+            append_test_item(test_items_ex1, test_items[i]);
+        }
+        else if ( test_items[i].nexp == EX2) {
+            append_test_item(test_items_ex2, test_items[i]);
+        }
+        else if (test_items[i].nexp == EX3) {
+            append_test_item(test_items_ex3, test_items[i]);
+        }
+        else {
+            println("Invalid item, is your list with test_items correct?");
+        }
+        i++;
+    }
+
+    // The printfunctions are commented out because they are only used for
+    // debugging.
+    if (shuffle_and_reorder(test_items_ex1, max_sub) != OK)
+        return false;
+    //println("Test items ex1:");
+    //dump_test_items(test_items_ex1);
+    if (shuffle_and_reorder(test_items_ex2, max_sub) != OK)
+        return false;
+    //println("Test items ex2:");
+    //dump_test_items(test_items_ex2);
+    if (shuffle_and_reorder(test_items_ex3, max_sub) != OK)
+        return false;
+    //println("Test items ex3:");
+    //dump_test_items(test_items_ex3);
+
+    return true;
+}
+
